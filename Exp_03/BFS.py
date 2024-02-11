@@ -12,25 +12,21 @@ graph = {
 }
 visited = set()
 
-def bfs(graph, start, goal):
-    queue = [(start, [start])]  # Queue now stores both the current node and the path taken to reach it
+queue = [('S', ['S'])]  # Queue now stores both the current node and the path taken to reach it
 
-    while queue:
-        current_node, path = queue.pop(0)
-        print(current_node, end=" ")
+while queue:
+    current_node, path = queue.pop(0)
+    print(current_node, end=" ")
 
-        if current_node == goal:
-            print("\nGoal state reached! Path:", ' -> '.join(path))
-            return
+    if current_node == 'I':
+        print("\nGoal state reached! Path:", ' -> '.join(path))
+        break
 
-        visited.add(current_node)
+    visited.add(current_node)
 
-        for neighbour in graph[current_node]:
-            if neighbour not in visited:
-                visited.add(neighbour)
-                queue.append((neighbour, path + [neighbour]))
+    for neighbour in graph[current_node]:
+        if neighbour not in visited:
+            visited.add(neighbour)
+            queue.append((neighbour, path + [neighbour]))
 
-    print("\nGoal state not reached.")
-
-# Example usage for BFS with start state 'S' and goal state 'G':
-bfs(graph, 'S', 'G')
+print("\nGoal state not reached.")
