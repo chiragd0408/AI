@@ -11,24 +11,28 @@ graph = {
     'G': []
 }
 
-visited = set()
-stack = [('S', ['S'])]  # Stack now stores both the current node and the path taken to reach it
+start_node = 'S'
+goal_node = 'D'
 
-while stack:
-    current_node, path = stack.pop()
+from queue import Queue
+
+visited = set()
+queue = Queue()
+queue.put((start_node, [start_node]))  # (node, path)
+
+while not queue.empty():
+    current_node, path = queue.get()
     print(current_node, end=" ")
 
-    if current_node == 'I':
+    if current_node == goal_node:
         print("\nGoal state reached! Path:", ' -> '.join(path))
         break
 
     visited.add(current_node)
 
-    for neighbour in reversed(graph[current_node]):
+    for neighbour in graph[current_node]:
         if neighbour not in visited:
-            visited.add(neighbour)
-            stack.append((neighbour, path + [neighbour]))
-
+            new_path = path + [neighbour]
+            queue.put((neighbour, new_path))
 else:
     print("\nGoal state not reached.")
-
